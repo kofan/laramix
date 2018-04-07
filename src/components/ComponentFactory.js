@@ -23,7 +23,8 @@ let components = [
     'Extract',
     'Notifications',
     'DisableNotifications',
-    'PurifyCss'
+    'PurifyCss',
+    'Clean',
 ];
 
 class ComponentFactory {

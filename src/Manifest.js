@@ -38,7 +38,7 @@ class Manifest {
 
         let original = filePath.replace(/\?id=\w{20}/, '');
 
-        this.manifest[original] = filePath;
+        this.manifest[original] = this.assetPath(filePath);
 
         return this;
     }
@@ -53,7 +53,7 @@ class Manifest {
 
         let filePath = this.normalizePath(file);
 
-        this.manifest[filePath] = filePath + '?id=' + hash;
+        this.manifest[filePath] = this.assetPath(filePath + '?id=' + hash);
 
         return this;
     }
@@ -96,6 +96,15 @@ class Manifest {
      */
     path() {
         return path.join(Config.publicPath, this.name);
+    }
+
+    /**
+     * Get Asset path (URL) for the file
+     * @param {string} filePath
+     * @returns {string}
+     */
+    assetPath(filePath) {
+        return path.join(Config.resourceRoot, filePath);
     }
 
     /**

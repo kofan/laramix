@@ -52,8 +52,6 @@ class WebpackConfig {
      * Build the output object.
      */
     buildOutput() {
-        let http = process.argv.includes('--https') ? 'https' : 'http';
-
         if (Mix.isUsing('hmr')) {
             this.webpackConfig.devServer.host = Config.hmrOptions.host;
             this.webpackConfig.devServer.port = Config.hmrOptions.port;
@@ -63,14 +61,7 @@ class WebpackConfig {
             path: path.resolve(Mix.isUsing('hmr') ? '/' : Config.publicPath),
             filename: '[name].js',
             chunkFilename: '[name].js',
-            publicPath: Mix.isUsing('hmr')
-                ? http +
-                  '://' +
-                  Config.hmrOptions.host +
-                  ':' +
-                  Config.hmrOptions.port +
-                  '/'
-                : '/'
+            publicPath: Config.resourceRoot,
         };
 
         return this;

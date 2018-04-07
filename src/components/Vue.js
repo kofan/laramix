@@ -1,4 +1,5 @@
 let ExtractTextPlugin = require('extract-text-webpack-plugin');
+let { omit } = require('lodash');
 
 class Vue {
     /**
@@ -64,7 +65,7 @@ class Vue {
 
         let vueLoaderOptions = Object.assign(
             {
-                loaders: Config.extractVueStyles
+                loaders: Object.assign(Config.extractVueStyles
                     ? {
                           js: {
                               loader: 'babel-loader',
@@ -96,10 +97,10 @@ class Vue {
                               loader: 'babel-loader',
                               options: Config.babel()
                           }
-                      },
+                      }, Config.vue.loaders),
                 postcss: Config.postCss
             },
-            Config.vue
+            omit(Config.vue, ['loaders'])
         );
 
         return { vueLoaderOptions, extractPlugin };

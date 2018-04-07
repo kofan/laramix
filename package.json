@@ -1,5 +1,5 @@
 {
-  "name": "laravel-mix",
+  "name": "laramix",
   "version": "2.1.11",
   "description": "Laravel Mix is an elegant wrapper around Webpack for the 80% use case.",
   "main": "src/index.js",
@@ -11,7 +11,7 @@
     "test": "nyc ava --verbose --serial",
     "posttest": "nyc report --reporter=html"
   },
-  "repository": "JeffreyWay/laravel-mix",
+  "repository": "kofan/laramix",
   "bugs": {
     "url": "https://github.com/JeffreyWay/laravel-mix/issues"
   },

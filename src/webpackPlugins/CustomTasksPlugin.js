@@ -8,7 +8,7 @@ class CustomTasksPlugin {
         compiler.plugin('done', stats => {
             Mix.tasks.forEach(task => this.runTask(task, stats));
 
-            if (Mix.components.get('version')) {
+            if (Mix.components.get('version') && !Mix.isUsing('hmr')) {
                 this.applyVersioning();
             }
 
