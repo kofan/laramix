@@ -2,6 +2,7 @@ let objectValues = require('lodash').values;
 let without = require('lodash').without;
 
 let path = require('path');
+let url = require('url');
 
 class Manifest {
     /**
@@ -104,7 +105,7 @@ class Manifest {
      * @returns {string}
      */
     assetPath(filePath) {
-        return path.join(Config.resourceRoot, filePath);
+        return url.resolve(Config.resourceRoot, filePath);
     }
 
     /**

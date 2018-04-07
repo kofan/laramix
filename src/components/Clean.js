@@ -1,3 +1,5 @@
+const path = require('path');
+
 class Clean {
     /**
      * The API name for the component.
@@ -18,14 +20,21 @@ class Clean {
      *
      * @param {Object} config
      */
-    register(config) {
-        this.config = config || {};
-
-        if (!this.config.exclude) {
-            this.config.exclude = [];
+    register(paths, config) {
+        if (!config && typeof(paths) === 'object') {
+            config = paths;
+            paths = undefined;
         }
 
-        this.config.exclude.push('.git*', 'hot');
+        this.paths = paths;
+        this.config = config = config || {};
+
+        if (!config.exclude) {
+            config.exclude = [];
+        }
+        if (!config.root) {
+            config.root = Mix.paths.root();
+        }
     }
 
     /**
@@ -33,8 +42,15 @@ class Clean {
      */
     webpackPlugins() {
         let CleanPlugin = require('clean-webpack-plugin');
+        let config = this.config;
+        let paths = this.paths;
 
-        return new CleanPlugin([Config.publicPath], this.config());
+        if (!paths) {
+          paths = [path.resolve(Config.publicPath)];
+          config.exclude.push('.gitignore', '.gitkeep', 'hot');
+        }
+
+        return new CleanPlugin(paths, config);
     }
 }
 
