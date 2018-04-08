@@ -37,6 +37,17 @@ module.exports = function() {
         },
 
         /**
+         * Determine if the application is in debug mode
+         *
+         * @see .env APP_DEBUG
+         *
+         * @type {Boolean}
+         */
+        debug:
+            process.env.APP_DEBUG &&
+            JSON.parse(process.env.APP_DEBUG),
+
+        /**
          * PostCSS plugins to be applied to compiled CSS.
          *
          * See: https://github.com/postcss/postcss/blob/master/docs/plugins.md
