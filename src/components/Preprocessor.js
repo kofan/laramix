@@ -100,7 +100,7 @@ class Preprocessor {
 
                 rules.push({
                     test: preprocessor.src.path(),
-                    use: extractPlugin.extract({
+                    use: Mix.isUsing('hmr') && preprocessor.hmr ? ['style-loader', ...loaders] : extractPlugin.extract({
                         fallback: 'style-loader',
                         use: loaders
                     })
@@ -140,11 +140,15 @@ class Preprocessor {
             src.nameWithoutExtension() + '.css'
         );
 
+        const { hmr } = pluginOptions
+        if (pluginOptions.hmr) delete pluginOptions.hmr;
+
         this.details = (this.details || []).concat({
             type: this.constructor.name.toLowerCase(),
             src,
             output,
-            pluginOptions
+            pluginOptions,
+            hmr: hmr || hmr === undefined,
         });
 
         if (type === 'fastSass') {
