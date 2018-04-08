@@ -55,7 +55,8 @@ Mix.listen('init', () => {
 
         new File(path.join(Config.publicPath, 'hot')).write(address);
 
-        Config.resourceRoot = url.resolve(address, Config.resourceRoot);
+        Config.resourceRoot = url.resolve(address, Config.resourceRoot)
+            .substring(http.length + 1)
     }
 });
 

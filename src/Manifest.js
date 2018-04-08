@@ -2,7 +2,6 @@ let objectValues = require('lodash').values;
 let without = require('lodash').without;
 
 let path = require('path');
-let url = require('url');
 
 class Manifest {
     /**
@@ -101,11 +100,11 @@ class Manifest {
 
     /**
      * Get Asset path (URL) for the file
-     * @param {string} filePath
+     * @param {string} normalizedFilePath
      * @returns {string}
      */
-    assetPath(filePath) {
-        return url.resolve(Config.resourceRoot, filePath);
+    assetPath(normalizedFilePath) {
+        return (Config.resourceRoot + normalizedFilePath).replace(/([^:])\/{2,}/g, '$1/');
     }
 
     /**
