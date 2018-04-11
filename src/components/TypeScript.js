@@ -12,7 +12,7 @@ class TypeScript extends JavaScript {
      * Required dependencies for the component.
      */
     dependencies() {
-        return ['ts-loader', 'typescript'].concat(super.dependencies());
+        return ['ts-loader', 'typescript', 'tsconfig-paths-webpack-plugin'].concat(super.dependencies());
     }
 
     /**
@@ -35,8 +35,10 @@ class TypeScript extends JavaScript {
      * @param {Object} config
      */
     webpackConfig(config) {
-        super.webpackConfig(config)
+        super.webpackConfig(config);
+        const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
+        config.resolve.plugins.push(new TsconfigPathsPlugin());
         config.resolve.extensions.push('.ts', '.tsx');
         config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js';
     }

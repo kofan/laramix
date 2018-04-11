@@ -1,11 +1,21 @@
 let argv = require('yargs').argv;
+let fs = require('fs');
+
+let mixfile = argv.env && argv.env.mixfile ? argv.env.mixfile : 'webpack.mix';
+if (mixfile.endsWith('.js')) {
+    mixfile = mixfile.substr(0, mixfile.length - 3);
+}
 
 class Paths {
     /**
      * Create a new Paths instance.
      */
     constructor() {
-        if (argv['$0'].includes('ava')) {
+        const cwd = process.cwd();
+
+        if (fs.existsSync(path.join(cwd, `${mixfile}.js`))) {
+            this.rootPath = cwd;
+        } else if (argv['$0'].includes('ava')) {
             this.rootPath = path.resolve(__dirname, '../');
         } else {
             this.rootPath = path.resolve(__dirname, '../../../');
@@ -27,9 +37,7 @@ class Paths {
      * Determine the path to the user's webpack.mix.js file.
      */
     mix() {
-        return this.root(
-            argv.env && argv.env.mixfile ? argv.env.mixfile : 'webpack.mix'
-        );
+        return this.root(mixfile);
     }
 
     /**
