@@ -38,6 +38,10 @@ class TypeScript extends JavaScript {
         super.webpackConfig(config);
         const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 
+        if (!config.resolve.plugins) {
+          config.resolve.plugins = [];
+        }
+
         config.resolve.plugins.push(new TsconfigPathsPlugin());
         config.resolve.extensions.push('.ts', '.tsx');
         config.resolve.alias['vue$'] = 'vue/dist/vue.esm.js';
