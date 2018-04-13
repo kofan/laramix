@@ -42,6 +42,17 @@ class Api {
     }
 
     /**
+     * Set HMR settings
+     * @param {string} host
+     * @param {string|number} port
+     * @returns {Api}
+     */
+    hotModuleReload(host = '127.0.0.1', port = '8080') {
+        Config.hmrOptions = { host, port };
+        return this;
+    }
+
+    /**
      * Merge custom config with the provided webpack.config file.
      *
      * @param {object} config

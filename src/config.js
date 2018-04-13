@@ -113,6 +113,7 @@ module.exports = function() {
          * @type {Object}
          */
         vue: {
+            i18n: false,
             loaders: {},
             preLoaders: {},
             postLoaders: {},

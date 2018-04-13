@@ -6,9 +6,21 @@ class Vue {
      * Required dependencies for the component.
      */
     dependencies() {
+        let deps = [];
+
         if (Config.extractVueStyles && this.isSassGlobalVueStyle()) {
-            return ['sass-resources-loader']; // Required for importing global styles into every component.
+            deps.push('sass-resources-loader'); // Required for importing global styles into every component.
         }
+
+        if (Config.vue.i18n) {
+            deps.push('@kazupon/vue-i18n-loader');
+
+            if (Config.vue.i18n === 'yaml') {
+                deps.push('yaml-loader');
+            }
+        }
+
+        return deps;
     }
 
     /**
@@ -106,8 +118,16 @@ class Vue {
                       }, Config.vue.loaders),
                 postcss: Config.postCss
             },
-            omit(Config.vue, ['loaders'])
+            omit(Config.vue, ['i18n', 'loaders'])
         );
+
+        if (Config.vue.i18n) {
+            vueLoaderOptions.loaders.i18n = '@kazupon/vue-i18n-loader';
+
+            if (Config.vue.i18n === 'yaml') {
+                vueLoaderOptions.preLoaders.i18n = 'yaml-loader';
+            }
+        }
 
         return { vueLoaderOptions, extractPlugin };
     }
