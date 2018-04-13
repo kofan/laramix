@@ -6,7 +6,7 @@ class Vue {
      * Required dependencies for the component.
      */
     dependencies() {
-        if (Config.extractVueStyles && Config.globalVueStyles) {
+        if (Config.extractVueStyles && this.isSassGlobalVueStyle()) {
             return ['sass-resources-loader']; // Required for importing global styles into every component.
         }
     }
@@ -27,6 +27,12 @@ class Vue {
         });
 
         config.plugins.push(extractPlugin);
+
+        if (this.isStylusGlobalVueStyle()) {
+            config.plugins.push(new (require('webpack')).LoaderOptionsPlugin({
+                options: { stylus: { import: [this.getGlobalVueStylePath()] } }
+            }));
+        }
     }
 
     /**
@@ -46,18 +52,18 @@ class Vue {
                 fallback: 'vue-style-loader'
             });
 
-            if (Config.globalVueStyles) {
+            if (this.isSassGlobalVueStyle()) {
                 scssLoader.push({
                     loader: 'sass-resources-loader',
                     options: {
-                        resources: Mix.paths.root(Config.globalVueStyles)
+                        resources: this.getGlobalVueStylePath(),
                     }
                 });
 
                 sassLoader.push({
                     loader: 'sass-resources-loader',
                     options: {
-                        resources: Mix.paths.root(Config.globalVueStyles)
+                        resources: this.getGlobalVueStylePath(),
                     }
                 });
             }
@@ -133,6 +139,20 @@ class Vue {
                 : 'vue-styles.css';
 
         return fileName.replace(Config.publicPath, '').replace(/^\//, '');
+    }
+
+    getGlobalVueStylePath() {
+        return Mix.paths.root(Config.globalVueStyles);
+    }
+
+    isSassGlobalVueStyle() {
+        return Config.globalVueStyles
+            && Config.globalVueStyles.search(/\.s(a|c)ss$/) !== -1;
+    }
+
+    isStylusGlobalVueStyle() {
+        return Config.globalVueStyles
+            && Config.globalVueStyles.endsWith('.styl');
     }
 }
 
