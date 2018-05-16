@@ -140,7 +140,7 @@ class Preprocessor {
             src.nameWithoutExtension() + '.css'
         );
 
-        const { hmr } = pluginOptions
+        const { hmr } = pluginOptions;
         if (pluginOptions.hmr) delete pluginOptions.hmr;
 
         this.details = (this.details || []).concat({
